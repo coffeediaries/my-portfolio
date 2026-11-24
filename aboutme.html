@@ -11,6 +11,9 @@
         .basketville-text {
             font-family: 'Libre Baskerville', serif;
         }
+        .times {
+            font-family: 'Times New Roman', Times, serif;
+        }
         .inline-container {
             display: flex;
             justify-content: space-between;
@@ -26,22 +29,24 @@
             background-color: #112250;
             color: #f4f1ea;
             padding-left: 20px;
+            padding-right: 20px;
+            padding-bottom: 100px;
         }
 
         .card {
-            --w: clamp(240px, 40vw, 420px);
+            --w: clamp(300px, 60vw, 800px);
             --ease: cubic-bezier(0.25, 1, 0.5, 1);   /* fixed */
             position: relative;
             width: var(--w);
             aspect-ratio: 3 / 2;
-            margin: calc(var(--w) / 3) auto;
+            margin: calc(var(--w) / 5) auto;
             transition: transform 0.6s var(--ease);
             will-change: transform;
         }
         .card:hover,
         .card:focus-within { transform: scale(1.15); }
 
-        .slide {
+        /*.slide {
             position: absolute;
             inset: 0;
             display: flex;
@@ -75,7 +80,7 @@
             height: 4px;
             transform: translateX(-50%);
             background: #2c73df;
-        }   /* <-- this closing brace was missing */
+        }  
 
         .card:hover .slide1,
         .card:focus-within .slide1 { transform: translateY(-50%); }
@@ -84,6 +89,48 @@
 
         @media (prefers-reduced-motion: reduce) {
             .card, .slide { transition: none; }
+        } */
+        .container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .text-content {
+            flex: 1;
+        }
+        .right-image {
+            width: 300px;
+            height: auto;
+        }
+        .about {
+            display: grid;
+            grid-template-columns: 1fr minmax(240px, 35%);
+            gap: 2rem;
+            align-items: stretch;
+        }
+        .about-img { 
+            width: 100%;
+            height: auto;
+            display: block;
+            padding-right: 30px;
+        }
+        .about-text {
+            position: relative;
+            overflow: hidden;
+        }
+        .about-text p {
+            position: absolute;
+            inset: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            line-height: 1.5;
+            padding-left: 25px;
+        }
+        @media (max-width: 767px) {
+            .about {grid-template-columns: 1fr;}
+            .about-text {overflow: visible;}
+            .about-text p {position: static; font-size: 1rem;}
         }
     </style>
 </head>
@@ -96,17 +143,40 @@
     </div>
 
     <h1 class="basketville-text text-8xl textpad" style="line-height: 1.6;">About Me</h1>
+    <img src="card.png" alt="my namecard" class="card" tabindex="0">
+    <section class="about">
+        <div class="about-text" id="fitBox">
+            <p id="fitText" class="times">
+                Hi! I'm Lia, a high school student studying in Singapore! I grew up coding in python and solving math problems in my free time (still enjoy doing them now!) and I really like doing research! While being a science student for most of my life, I also took up many design related hobbies like photography, film-making and being the publicity IC to many clubs I serve. My ambition is to help others bridge the gap between realising and achieving their dreams!
+            </p>
+        </div>
+        <img src="me.jpeg" alt="My Profile" class="about-img">
+    </section>
+    <script>
+        const box = document.getElementById('fitBox');
+        const text = document.getElementById('fitText');
+        const img = document.querySelector('.about-img');
+        const desktop = window.matchMedia('(min-width: 768px)');
 
-    <div class="card" tabindex="0">
-        <div class="slide slide1">
-            <img src="card.png" alt="my namecard">
-        </div>
-        <div class="slide slide2">
-            <div>   <!-- wrapper so h3 and p stack vertically -->
-                <h3 class="basketville-text">Behind of card</h3>
-                <p class="basketville-text">Or additional notes</p>
-            </div> 
-        </div>
-    </div>
+        function fitText() {
+            if (!desktop.matches) {
+                text.style.fontSize = '';
+                return;
+            }
+            let lo = 8, hi = 200;
+            while (hi - lo > 0.5) {
+                const mid = (lo + hi) / 2;
+                text.style.fontSize = mid + 'px';
+                if (text.scrollHeight > box.clientHeight) hi=mid;
+                else lo = mid;
+            }
+            text.style.fontSize = lo + 'px';
+        }
+        window.addEventListener('resize', fitText);
+        desktop.addEventListener('change', fitText);
+        img.addEventListener('load', fitText);
+        document.fonts.ready.then(fitText);
+        fitText();
+    </script>
 </body>
 </html>
