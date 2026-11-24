@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 	<head>
-        
 		<title>Lia's Portfolio</title>
 		<script src="https://cdn.tailwindcss.com"></script>
         <link rel="preconnect" href="https://googleapis.com">
@@ -28,6 +27,7 @@
                 padding-left: 20px;
                 padding-right: 20px;
                 overflow-x: hidden;
+                padding-bottom: 1000px;
             }
             @font-face {
                 font-family: 'Blosta Script';
@@ -60,7 +60,7 @@
                 white-space: nowrap;
                 line-height: 1;
                 font-size: clamp(5rem, 22vw, 20rem);
-                text-shadow: 0 0 12px #fff, 0 0 32px rgba(255,255,255,0,6);
+                text-shadow: 0 0 12px #fff, 0 0 32px rgba(255,255,255,0.6);
             }
             .hero-text.top {top:0; left:0;}
             .hero-text.bottom {bottom:0; right:0;}
@@ -73,7 +73,7 @@
                 cursor: pointer;
                 transition: transform 0.8s cubic-bezier(0.23, 1, 0.5, 1);
             }
-            .book:hover, .book.open {transform:translateX(50%);}
+            .book.open {transform:translateX(50%);}
             .sheet {
                 position: absolute;
                 inset: 0;
@@ -95,7 +95,6 @@
                 transform: rotateY(180deg);
                 border-radius: 12px 4px 4px 12px;
             }
-            .book:hover .sheet,
             .book.open .sheet {
                 transform: rotateY(-180deg);
             }
@@ -107,6 +106,8 @@
                 object-fit: cover;
                 transform: scaleX(-1);
             }
+            .hero-wrap { height: 200vh; }
+            .hero { position: sticky; top: 0; }
         </style>
 	</head>
 	<body>
@@ -116,16 +117,32 @@
             <a href="media.html" class="basketville-text nav font-bold">Media</a>
             <a href="aboutme.html" class="basketville-text nav font-bold">About Me</a>
         </div>
-        <div class="hero">
-            <h1 class="blosta-text hero-text top" style="line-height: 1.6;">Lia's</h1>
-                <div class="book" onclick="this.classList.toggle('open')">
-                    <img src="2.png" alt="Back cover" class="base">
-                    <div class="sheet">
-                        <img src="2.png" alt="Front cover" class="front">
-                        <img src="2.png" alt="Back cover" class="back">
+        <div class ="hero-wrap">
+            <div class="hero">
+                <h1 class="blosta-text hero-text top" style="line-height: 1.6;">Lia's</h1>
+                    <div class="book" id="book" onclick="this.classList.toggle('open')">
+                        <img src="2.png" alt="Back cover" class="base">
+                        <div class="sheet">
+                            <img src="2.png" alt="Front cover" class="front">
+                            <img src="2.png" alt="Back cover" class="back">
+                        </div>
                     </div>
-                </div>
-            <h1 class="blosta-text hero-text bottom">Portfolio</h1>
+                <h1 class="blosta-text hero-text bottom">Portfolio</h1>
+            </div>
         </div>
+        <script>
+            const book = document.getElementById('book');
+            let lastY = window.scrollY;
+
+            window.addEventListener('scroll', () => {
+                const y = Math.max(0, window.scrollY);
+                if (y> lastY + 5) {
+                    book.classList.add('open');
+                } else if (y < lastY - 5) {
+                    book.classList.remove('open');
+                }
+                lastY = y;
+            }, {passive: true});
+        </script>
 	</body>
 </html>
