@@ -179,7 +179,7 @@
 	<body>
 		<div class="inline-container textpad">
             <a href="index.html" class="basketville-text nav font-bold">Home</a>
-            <a href="engineering.html" class="basketville-text nav font-bold">Engineering</a>
+            <a href="engineering.html" class="basketville-text nav font-bold">Projects</a>
             <a href="media.html" class="basketville-text nav font-bold">Media</a>
             <a href="aboutme.html" class="basketville-text nav font-bold">About Me</a>
         </div>
@@ -202,10 +202,14 @@
                 <h1 class="blosta-text hero-text bottom">Portfolio</h1>
             </div>
         </div>
+        <div style="height: 40vh;"></div>
+        <div>
+            <h1 class="basketville-text text-8xl textpad text-center">Hall of Fame</h1>
+        </div>
         <script>
             const book = document.getElementById('book');
             let lastY = window.scrollY;
-
+            
             window.addEventListener('scroll', () => {
                 const y = Math.max(0, window.scrollY);
                 if (y> lastY + 5) {
