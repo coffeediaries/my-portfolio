@@ -6,6 +6,8 @@
         <link rel="preconnect" href="https://googleapis.com">
         <link rel="preconnect" href="https://gstatic.com" crossorigin>
         <link href="https://googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
         <style>
             .basketville-text {
                 font-family: 'Libre Baskerville', serif;
@@ -145,6 +147,29 @@
             .book.open .item:hover .jig {
                 animation: jiggle .45s ease-in-out;
             }
+            .splide__slide {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+
+                transform: scale(0.85);
+                filter: brightness(0.5);
+                z-index: 1;
+                transition: transform 0.2s ease, filter 0.2s ease;
+            }
+            .splide__slide.is-active {
+                transform: scale(1.05);
+                filter: brightness(1);
+                z-index: 2;
+            }
+            .splide__slide img {
+                width: 50%;
+                aspect-ratio: 1 / 1;
+                object-fit: cover;
+                object-position: center;
+            }
+            
             @keyframes jiggle {
                 0%, 100% {
                     transform: rotate(0deg) scale(1);
@@ -203,13 +228,36 @@
             </div>
         </div>
         <div style="height: 40vh;"></div>
-        <div>
-            <h1 class="basketville-text text-8xl textpad text-center">Hall of Fame</h1>
-        </div>
+        <h1 class="basketville-text text-8xl textpad text-center">Hall of Fame</h1>
+        <div style="height: 20vh;"></div>
+        <section id="image-carousel" class="splide" aria-label="Hall of fame">
+            <div class="splide__track text-align: center;">
+                <ul class="splide__list">
+                    <li class="splide__slide">
+                        <img src="card.png" alt="">
+                        <div class="basketville-text text-4xl textpad text-left">
+                            Project 1
+                        </div>
+                    </li>
+                    <li class="splide__slide">
+                        <img src="card.png" alt="">
+                        <div class="basketville-text text-4xl textpad text-left">
+                            Project 2
+                        </div>
+                    </li>
+                    <li class="splide__slide">
+                        <img src="card.png" alt="">
+                        <div class="basketville-text text-4xl textpad text-left">
+                            Project 3
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
         <script>
             const book = document.getElementById('book');
             let lastY = window.scrollY;
-            
+
             window.addEventListener('scroll', () => {
                 const y = Math.max(0, window.scrollY);
                 if (y> lastY + 5) {
@@ -219,6 +267,23 @@
                 }
                 lastY = y;
             }, {passive: true});
-        </script>
+            document.addEventListener( 'DOMContentLoaded', function () {
+                new Splide('#image-carousel', {
+                    heightRatio: 0.5,
+                }).mount();
+                new Splide('.splide', {
+                    type: 'loop',
+                    focus: 'center',
+                    perPage: 3,
+                    gap: '-30px',
+                    autoplay: true,
+                    interval: 1500,
+                    speed: 400,
+                    pauseOnHover: true,
+                    arrows: false,
+                    pagination: false,
+                }).mount();
+            });
+        </script>    
 	</body>
 </html>
